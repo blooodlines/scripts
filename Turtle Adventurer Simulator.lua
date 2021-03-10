@@ -1,26 +1,11 @@
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/miroeramaa/TurtleLib/main/TurtleUiLib.lua"))()
 local window = library:Window("Adventurer Simulator")
-local window2 = library:Window("Valentine Event")
 local window3 = library:Window("Pet Egg Hatching")
 local window4 = library:Window("Miscellaneous")
+local window5 = library:Window("Credits")
 library:Keybind("G")
 
-if firetouchinterest then else
-print("Your exploit is not supported")
-return game:Shutdown()
-end
-if firetouchinterest then
-print("Your exploit is supported")
-end
-
 window:Label("- Autofarm -", Color3.fromRGB(127, 143, 166))
-window:Toggle("Auto Sell", false, function(AutoSellToggle)
-shared.toggle2 = AutoSellToggle
-while shared.toggle2 == true and wait() do
-wait(.0)
-game:GetService("Workspace").Activations.Sell.RootPart.CFrame = game.Players.LocalPlayer.character.HumanoidRootPart.CFrame
-end
-end)
 window:Toggle("Auto Attack", false, function(AutoAttackToggle)
 shared.toggle3 = AutoAttackToggle
 while shared.toggle3 == true and wait() do
@@ -33,6 +18,13 @@ local Event = game:GetService("ReplicatedStorage").Remotes.Events.Weapon
 Event:FireServer(A_1)
 end
 end)
+window:Toggle("Auto Sell", false, function(AutoSellToggle)
+shared.toggle2 = AutoSellToggle
+while shared.toggle2 == true and wait() do
+wait(.0)
+game:GetService("Workspace").Activations.Sell.RootPart.CFrame = game.Players.LocalPlayer.character.HumanoidRootPart.CFrame
+end
+end)
 window:Toggle("Collect Coins & Gems", false, function(CollectCoinsGemsToggle)
 shared.toggle4 = CollectCoinsGemsToggle
 while shared.toggle4 == true and wait() do
@@ -40,6 +32,7 @@ wait(.0)
    for i,v in pairs(game:GetService("Workspace").Client.Worlds.Overworld.Collectables.Projectiles:GetDescendants()) do
        if v:IsA("UnionOperation") or v:IsA("MeshPart") then
            v.CFrame = game.workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame
+v.Transparency = 1
        end
    end
    wait(0.25)
@@ -131,7 +124,8 @@ window:Dropdown("Select Boss", {
 "Earth's Guardian",
 "Cursed Wizard",
 "Cthulhu Pirate",
-"Samurai"
+"Samurai",
+"Ice Boss"
 }, function(DropdownSelectBoss)
     shared.selectboss = DropdownSelectBoss
 end)
@@ -147,6 +141,8 @@ while shared.toggleautoboss == true and wait() do
     shared.world = "Tropical Paradise"
   elseif shared.selectboss == "Samurai" then
     shared.world = "Ancient Palace"
+  elseif shared.selectboss == "Ice Boss" then
+    shared.world = "Ice Temple"
   end
   if shared.selectboss then
     wait(.5)
@@ -203,64 +199,6 @@ until IndexCounter >= 11
 IndexCounter = 1
 end
 end)
-
-window2:Toggle("Auto Collect Hearts", false, function(AutoCollectHeartToggle)
-shared.toggle7 = AutoCollectHeartToggle
-while shared.toggle7 == true and wait() do
-wait(.0)
-for i,v in pairs(game:GetService("Workspace").Client.Worlds["Valentine's World"].Collectables.Projectiles:GetDescendants()) do
-if v.Name == "Meshes/heart2" then
-firetouchinterest(game.Players.LocalPlayer.Character.Head, v, 0)
-wait()
-firetouchinterest(game.Players.LocalPlayer.Character.Head, v, 1)
-wait(.0)
-end
-end
-end
-end)
-window2:Toggle("Auto Boss - Valentine", false, function(AutoBossToggle)
-shared.toggle = AutoBossToggle
-while shared.toggle == true and wait() do
-wait(.0)
-for i,v in pairs(game:GetService("Workspace").Client.Worlds["Valentine's World"].Boss.Cupid:GetChildren()) do
-if v.Name == "LowerTorso" then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-local A_1 = 
-{
-	["Action"] = "Attack"
-}
-local Event = game:GetService("ReplicatedStorage").Remotes.Events.Weapon
-Event:FireServer(A_1)
-end
-end
-end
-end)
-window2:Dropdown("Select Egg", {
-"Candy Egg",
-"Chocolate Egg",
-"Valentine's Egg",
-"Cupid's Egg"
-}, function(DropdownSelectEgg)
-    shared.selectegg = DropdownSelectEgg
-end)
-
-window2:Toggle("Auto Hatch Eggs", false, function(AutoHatchToggle)
-  shared.toggleautohatch = AutoHatchToggle
-while shared.toggleautohatch == true and wait() do
-if shared.selectegg then
- game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Client.Worlds["Valentine's World"].Eggs[shared.selectegg].Root.CFrame
-end
-wait(.5)
-local A_1 = 
-{
-    ["EggName"] = shared.selectegg, 
-    ["Action"] = "Hatch Egg", 
-    ["WorldName"] = "Valentine's World"
-}
-local Event = game:GetService("ReplicatedStorage").Remotes.Events.Shop
-Event:FireServer(A_1)
-end
-end)
 window3:Label("Eggs Hatching", Color3.fromRGB(127, 143, 166))
 window3:Dropdown("Select Egg", {
 "Common Egg",
@@ -278,7 +216,11 @@ window3:Dropdown("Select Egg", {
 "Ancient Egg",
 "Samurai Egg",
 "Royal Egg",
-"Palace Egg"
+"Palace Egg",
+"Icy Egg",
+"Deep-Freeze Egg",
+"Sub-Zero Egg",
+"Ice Temple Egg"
 }, function(DropdownSelectEgg)
     shared.selectegg = DropdownSelectEgg
 end)
@@ -294,6 +236,8 @@ elseif shared.selectegg == "Jungle Egg" or shared.selectegg == "Sandy Egg" or sh
  shared.world = "Tropical Paradise"
 elseif shared.selectegg == "Ancient Egg" or shared.selectegg == "Samurai Egg" or shared.selectegg == "Royal Egg" or shared.selectegg == "Palace Egg" then
  shared.world = "Ancient Palace"
+elseif shared.selectegg == "Icy Egg" or shared.selectegg == "Deep-Freeze Egg" or shared.selectegg == "Sub-Zero Egg" or shared.selectegg == "Ice Temple Egg" then
+ shared.world = "Ice Temple"
 end
 if shared.selectegg then
  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Client.Worlds[shared.world].Eggs[shared.selectegg].Root.CFrame
@@ -338,7 +282,6 @@ wait(1)
 game:GetService("ReplicatedStorage").Remotes.Events.AutoDelete:FireServer({["Action"] = "Toggle", ["Rarity"] = "Rare"})
 end
 end)
-window3:Label("Credits to AltsegoD#9210", Color3.fromRGB(127, 143, 166))
 window4:Button("Unlock Islands", function()
 wait(.0)
 for i,v in pairs(game:GetService("Workspace").Client.Worlds.Overworld.Islands:GetDescendants()) do
@@ -368,3 +311,5 @@ game:GetService("ReplicatedStorage").Remotes.Events.Code:FireServer({["Action"] 
 wait(.0)
 game:GetService("ReplicatedStorage").Remotes.Events.Code:FireServer({["Action"] = "Redeem", ["Code"] = "TOFUU"})
 end)
+window5:Label("AltsegoD#9210 - Auto Hatch", Color3.fromRGB(127, 143, 166))
+window5:Label("unstabled#3069 - Script Owner", Color3.fromRGB(127, 143, 166))
