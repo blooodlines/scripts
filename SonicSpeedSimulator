@@ -1,0 +1,25 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main/elerium"))()
+
+local qq = library:AddWindow("Sonic Speed Simulator")
+local MainTab = qq:AddTab("Event")
+
+MainTab:AddSwitch("Auto Collect Gifts", function(a)
+    getgenv().AutoCollect = a
+	while AutoCollect do task.wait(10)
+	for _, v in pairs(workspace:FindFirstChild("World Currencies"):GetChildren()) do
+     if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
+             game:GetService("ReplicatedStorage").Knit.Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
+	      end
+	   end
+    end
+end)
+
+MainTab:AddButton("Copy Discord Server", function()
+	setclipboard("https://discord.gg/ssaVPA6atd")
+end)
+
+local keybind = MainTab:AddKeybind("Toggle UI", function(obj)
+	ui_options.toggle_key = obj
+end, {
+	["standard"] = Enum.KeyCode.RightShift,
+})
