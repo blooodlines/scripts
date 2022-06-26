@@ -5,12 +5,12 @@ local MainTab = qq:AddTab("Event")
 
 MainTab:AddSwitch("Auto Collect Gifts", function(a)
     getgenv().AutoCollect = a
-	while AutoCollect do task.wait(10)
+	while AutoCollect do task.wait(1)
 	for _, v in pairs(workspace:FindFirstChild("World Currencies"):GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
              game:GetService("ReplicatedStorage").Knit.Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
-	      end
-	   end
+	  end
+       end
     end
 end)
 
