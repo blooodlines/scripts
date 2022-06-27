@@ -11,15 +11,17 @@ local WorldCurrencies = workspace:FindFirstChild("World Currencies")
 local Knit = game:GetService("ReplicatedStorage").Knit
 local Services = Knit.Services
 
+local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
+
 MainTab:AddLabel("Birthday Bash Event")
 
 MainTab:AddSwitch("Auto Collect Gifts", function(a)
 getgenv().AutoCollect = a
 while AutoCollect do task.wait(1)
-	for _,v in pairs(WorldCurrencies:GetChildren()) do
+for _,v in pairs(WorldCurrencies:GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
-             Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
-	      end
+              PickupCurrency:FireServer(v.Name)
+	  end
        end
     end
 end)
@@ -29,15 +31,15 @@ getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(1)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
-		     Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
-	      end
+	      Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
+	  end
        end
     end
 end)
 
 MainTab:AddButton("Collect Everything", function()
  for _, v in pairs(WorldCurrencies:GetChildren()) do
-           Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name) v:Destroy()
+            PickupCurrency:FireServer(v.Name) v:Destroy()
          end
 end)
 
