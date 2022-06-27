@@ -11,7 +11,7 @@ local WorldCurrencies = workspace:FindFirstChild("World Currencies")
 local Knit = game:GetService("ReplicatedStorage").Knit
 local Services = Knit.Services
 
-MainTab:AddLabel("Sonic Bash Event")
+MainTab:AddLabel("Birthday Bash Event")
 
 MainTab:AddSwitch("Auto Collect Gifts", function(a)
 getgenv().AutoCollect = a
