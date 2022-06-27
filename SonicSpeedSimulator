@@ -14,6 +14,18 @@ MainTab:AddSwitch("Auto Collect Gifts", function(a)
     end
 end)
 
+MainTab:AddSwitch("Auto Collect Balloons & Crates", function(b)
+getgenv().AutoCollect2 = b
+while AutoCollect2 do task.wait(1)
+for _, v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
+     if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
+		     --print(v.Name)
+		     game:GetService("ReplicatedStorage").Knit.Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
+	      end
+       end
+    end
+end)
+
 MainTab:AddButton("Copy Discord Server", function()
 	setclipboard("https://discord.gg/ssaVPA6atd")
 end)
