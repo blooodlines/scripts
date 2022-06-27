@@ -3,13 +3,16 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main
 local qq = library:AddWindow("Sonic Speed Simulator")
 local MainTab = qq:AddTab("Event")
 
+local Knit = game:GetService("ReplicatedStorage").Knit
+local Services = Knit.Services
+
 MainTab:AddSwitch("Auto Collect Gifts", function(a)
-    getgenv().AutoCollect = a
-	while AutoCollect do task.wait(1)
-	for _, v in pairs(workspace:FindFirstChild("World Currencies"):GetChildren()) do
+getgenv().AutoCollect = a
+while AutoCollect do task.wait(1)
+	for _,v in pairs(workspace:FindFirstChild("World Currencies"):GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
-             game:GetService("ReplicatedStorage").Knit.Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
-	  end
+             Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
+	      end
        end
     end
 end)
@@ -17,10 +20,9 @@ end)
 MainTab:AddSwitch("Auto Collect Balloons & Crates", function(b)
 getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(1)
-for _, v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
+for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
-		     --print(v.Name)
-		     game:GetService("ReplicatedStorage").Knit.Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
+		     Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
 	      end
        end
     end
