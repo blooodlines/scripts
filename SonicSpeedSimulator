@@ -35,7 +35,7 @@ end)
 MainTab:AddSwitch("Auto Collect Everything", function(c)
 getgenv().AutoCollectt = c
 while AutoCollectt do task.wait(1)
-for _,v in pairs(workspace.Map.Objects:GetChildren()) do
+for _,v in pairs(workspace["World Currencies"]:GetChildren()) do
      if v.ClassName == "Model" then
 		  Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
 	      end
