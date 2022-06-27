@@ -1,3 +1,7 @@
+for _,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main/elerium"))()
 
 local qq = library:AddWindow("Sonic Speed Simulator")
@@ -23,6 +27,17 @@ while AutoCollect2 do task.wait(1)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
 		     Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
+	      end
+       end
+    end
+end)
+
+MainTab:AddSwitch("Auto Collect Everything", function(c)
+getgenv().AutoCollectt = c
+while AutoCollectt do task.wait(1)
+for _,v in pairs(workspace.Map.Objects:GetChildren()) do
+     if v.ClassName == "Model" then
+		  Services.WorldCurrencyService.RE.PickupCurrency:FireServer(v.Name)
 	      end
        end
     end
