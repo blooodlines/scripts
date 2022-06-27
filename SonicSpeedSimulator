@@ -12,7 +12,8 @@ local Knit = game:GetService("ReplicatedStorage").Knit
 local Services = Knit.Services
 
 local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
-
+local ProcessDestructible = Services.DestructibleService.RE.ProcessDestructible
+ 
 MainTab:AddLabel("Birthday Bash Event")
 
 MainTab:AddSwitch("Auto Collect Gifts", function(a)
@@ -31,7 +32,7 @@ getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(1)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
-	      Services.DestructibleService.RE.ProcessDestructible:FireServer(v.Name) 
+	     ProcessDestructible:FireServer(v.Name) 
 	  end
        end
     end
