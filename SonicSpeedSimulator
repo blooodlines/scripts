@@ -41,22 +41,22 @@ MainTab:AddButton("Collect Everything", function()
          end
 end)
 
-local Reward = 0
-
+--[[
 MainTab:AddButton("Collect Bank Rewards", function()
-for i = 1, 9 do Reward = Reward + 1
-         Services.RewardService.RF.GiveRewardInBank:InvokeServer(tostring(Reward))
+for i = 1, 9 do
+         Services.RewardService.RF.GiveRewardInBank:InvokeServer(i)
       end
 end)
+--]]
 
 MainTab:AddLabel("Stealth Suit Sonic")
 
 MainTab:AddButton("Collect all Data Disks", function()
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
-         Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
-      end 
-   end
+          Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
+       end 
+    end
 end)
 
 MainTab:AddLabel("Settings")
