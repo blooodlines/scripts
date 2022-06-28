@@ -5,7 +5,11 @@ end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main/elerium"))()
 
 local qq = library:AddWindow("Sonic Speed Simulator")
-local MainTab = qq:AddTab("Event")
+local MainTab = qq:AddTab("Main")
+local EventTab = qq:AddTab("Event")
+local SettingsTab = qq:AddTab("Settings")
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
 
 local WorldCurrencies = workspace:FindFirstChild("World Currencies")
 local Knit = game:GetService("ReplicatedStorage").Knit
@@ -14,9 +18,9 @@ local Services = Knit.Services
 local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
 local ProcessDestructible = Services.DestructibleService.RE.ProcessDestructible
  
-MainTab:AddLabel("Birthday Bash Event")
+EventTab:AddLabel("Birthday Bash Event")
 
-MainTab:AddSwitch("Auto Collect Gifts", function(a)
+EventTab:AddSwitch("Auto Collect Gifts", function(a)
 getgenv().AutoCollect = a
 while AutoCollect do task.wait(1)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
@@ -27,7 +31,7 @@ for _,v in pairs(WorldCurrencies:GetChildren()) do
     end
 end)
 
-MainTab:AddSwitch("Auto Collect Balloons & Crates", function(b)
+EventTab:AddSwitch("Auto Collect Balloons & Crates", function(b)
 getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(1)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
@@ -39,10 +43,69 @@ for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
 end)
 
 MainTab:AddButton("Collect Everything", function()
- for _, v in pairs(WorldCurrencies:GetChildren()) do
-            PickupCurrency:FireServer(v.Name) v:Destroy()
-         end
+local Objects = workspace.Map.Objects
+
+ for _, v in pairs(Objects:GetChildren()) do
+	 if v:IsA("Model") then
+           PickupCurrency:FireServer(v.Name) v:Destroy()
+       end
+    end
 end)
+
+MainTab:AddSwitch("Auto Steps", function(d)
+getgenv().AutoSteps = d
+while AutoSteps do task.wait()
+          game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(LocalPlayer.Character, CFrame.new(Vector3.zero), d)
+       end
+	end
+end)
+
+MainTab:AddSwitch("Auto Rebirth", function(d)
+getgenv().AutoRebirth = d
+while AutoRebirth do task.wait(3)
+        local AttemptRebirth = Services.LevelingService.RF.AttemptRebirth
+        AttemptRebirth:InvokeServer()
+    end
+end)
+
+
+MainTab:AddButton("Unlock all Worlds", function()
+    local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone
+    local CompleteZoneObby = Services.ZoneService.RF.CompleteZoneObby
+    
+    RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
+    CompleteZoneObby:InvokeServer()
+    task.wait(0.3)
+    
+    RequestTeleportToZone:InvokeServer("Emerald Hill Obby", "Lost Valley Exit")
+    CompleteZoneObby:InvokeServer()
+    task.wait(0.3)
+    
+    RequestTeleportToZone:InvokeServer("Snow Valley Obby", "Emerald Hill Exit")
+    CompleteZoneObby:InvokeServer()
+
+	task.wait(0.3)
+    
+    RequestTeleportToZone:InvokeServer("Hill Top Zone Obby", "Snow Valley Hill Exit")
+    CompleteZoneObby:InvokeServer()
+end)
+
+MainTab:AddButton("Unlock all Characters", function()
+    local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter;
+    local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone;
+    
+    RequestTeleportToZone:InvokeServer("Green Hill")
+    RequestUnlockCharacter:FireServer("sonic")
+    task.wait(0.3)
+    
+    RequestTeleportToZone:InvokeServer("Lost Valley")
+    RequestUnlockCharacter:FireServer("tails")
+    task.wait(0.3)
+    
+    RequestTeleportToZone:InvokeServer("Emerald Hill")
+    RequestUnlockCharacter:FireServer("knuckles")
+end)
+
 
 --[[
 MainTab:AddButton("Collect Bank Rewards", function()
@@ -52,9 +115,9 @@ for i = 1, 9 do
 end)
 --]]
 
-MainTab:AddLabel("Stealth Suit Sonic")
+EventTab:AddLabel("Stealth Suit Sonic")
 
-MainTab:AddButton("Collect all Data Disks", function()
+EventTab:AddButton("Collect all Data Disks", function()
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
           Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
@@ -62,13 +125,13 @@ if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
     end
 end)
 
-MainTab:AddLabel("Settings")
+SettingsTab:AddLabel("Settings")
 
-MainTab:AddButton("Copy Discord Server", function()
+SettingsTab:AddButton("Copy Discord Server", function()
 	setclipboard("https://discord.gg/ssaVPA6atd")
 end)
 
-local keybind = MainTab:AddKeybind("Toggle UI", function(obj)
+local keybind = SettingsTab:AddKeybind("Toggle UI", function(obj)
 	ui_options.toggle_key = obj
 end, {
 	["standard"] = Enum.KeyCode.RightShift,
