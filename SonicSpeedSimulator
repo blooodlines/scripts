@@ -53,7 +53,6 @@ MainTab:AddSwitch("Auto Steps", function(d)
 getgenv().AutoSteps = d
 while AutoSteps do task.wait()
           game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(LocalPlayer.Character, CFrame.new(Vector3.zero), d)
-       end
 	end
 end)
 
