@@ -23,7 +23,7 @@ while AutoCollect do task.wait(1)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
               PickupCurrency:FireServer(v.Name)
-	  end
+	      end
        end
     end
 end)
@@ -33,20 +33,21 @@ getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(1)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
-	     ProcessDestructible:FireServer(v.Name) 
-	  end
+	         ProcessDestructible:FireServer(v.Name) 
+	      end
        end
     end
 end)
 
-MainTab:AddButton("Collect Everything", function()
-local Objects = workspace.Map.Objects
-
- for _, v in pairs(Objects:GetChildren()) do
+MainTab:AddSwitch("Auto Collect Everything", function(s)
+getgenv().AutoCollectEverything = s
+while AutoCollectEverything do task.wait(5)
+ for _, v in pairs(WorldCurrencies:GetChildren()) do
 	 if v:IsA("Model") then
-           PickupCurrency:FireServer(v.Name) v:Destroy()
-       end
-    end
+             PickupCurrency:FireServer(v.Name) v:Destroy()
+	      end
+	   end
+	end
 end)
 
 MainTab:AddSwitch("Auto Steps", function(d)
