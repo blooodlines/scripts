@@ -19,7 +19,7 @@ EventTab:AddLabel("Birthday Bash Event")
 
 EventTab:AddSwitch("Auto Collect Gifts", function(a)
 getgenv().AutoCollect = a
-while AutoCollect do task.wait(1)
+while AutoCollect do task.wait(0.3)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
               PickupCurrency:FireServer(v.Name)
@@ -30,9 +30,9 @@ end)
 
 EventTab:AddSwitch("Auto Collect Balloons & Crates", function(b)
 getgenv().AutoCollect2 = b
-while AutoCollect2 do task.wait(1)
+while AutoCollect2 do task.wait(0.3)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
-     if v:FindFirstChild("base").Attachment:FindFirstChild("dus") then
+     if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
 	         ProcessDestructible:FireServer(v.Name) 
 	      end
        end
@@ -43,7 +43,7 @@ MainTab:AddSwitch("Auto Collect Everything", function(s)
 getgenv().AutoCollectEverything = s
 while AutoCollectEverything do task.wait(5)
  for _, v in pairs(WorldCurrencies:GetChildren()) do
-	 if v:IsA("Model") then
+	 if v:FindFirstChildWhichIsA("Model") then
              PickupCurrency:FireServer(v.Name) v:Destroy()
 	      end
 	   end
@@ -60,11 +60,9 @@ end)
 MainTab:AddSwitch("Auto Rebirth", function(d)
 getgenv().AutoRebirth = d
 while AutoRebirth do task.wait(3)
-        local AttemptRebirth = Services.LevelingService.RF.AttemptRebirth
-        AttemptRebirth:InvokeServer()
+        Services.LevelingService.RF.AttemptRebirth:InvokeServer()
     end
 end)
-
 
 MainTab:AddButton("Unlock all Worlds", function()
     local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone
@@ -103,18 +101,9 @@ MainTab:AddButton("Unlock all Characters", function()
     RequestUnlockCharacter:FireServer("knuckles")
 end)
 
-
---[[
-MainTab:AddButton("Collect Bank Rewards", function()
-for i = 1, 9 do
-         Services.RewardService.RF.GiveRewardInBank:InvokeServer(i)
-      end
-end)
---]]
-
 EventTab:AddLabel("Stealth Suit Sonic")
 
-EventTab:AddButton("Collect all Data Disks", function()
+EventTab:AddButton("Collect Data Disks", function()
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
           Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
