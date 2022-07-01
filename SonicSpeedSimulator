@@ -50,12 +50,14 @@ while AutoCollectEverything do task.wait(5)
 	end
 end)
 
+--[[
 MainTab:AddSwitch("Auto Steps", function(d)
 getgenv().AutoSteps = d
 while AutoSteps do task.wait()
-          game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(LocalPlayer.Character, CFrame.new(Vector3.zero), d)
-	end
+        game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(LocalPlayer.Character, CFrame.new(Vector3.zero), d)
+    end
 end)
+--]]
 
 MainTab:AddSwitch("Auto Rebirth", function(d)
 getgenv().AutoRebirth = d
