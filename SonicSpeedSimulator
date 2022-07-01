@@ -3,7 +3,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main
 
 local qq = library:AddWindow("Sonic Speed Simulator")
 local MainTab = qq:AddTab("Main")
-local EventTab = qq:AddTab("Event")
 local SettingsTab = qq:AddTab("Settings")
 
 local LocalPlayer = game:GetService("Players").LocalPlayer
@@ -13,33 +12,8 @@ local Knit = game:GetService("ReplicatedStorage").Knit
 local Services = Knit.Services
 
 local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
-local ProcessDestructible = Services.DestructibleService.RE.ProcessDestructible
  
-EventTab:AddLabel("Birthday Bash Event")
-
-EventTab:AddSwitch("Auto Collect Gifts", function(a)
-getgenv().AutoCollect = a
-while AutoCollect do task.wait(0.3)
-for _,v in pairs(WorldCurrencies:GetChildren()) do
-     if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
-               PickupCurrency:FireServer(v.Name)
-	   end
-       end
-    end
-end)
-
-EventTab:AddSwitch("Auto Collect Balloons & Crates", function(b)
-getgenv().AutoCollect2 = b
-while AutoCollect2 do task.wait(0.3)
-for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
-     if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
-	       ProcessDestructible:FireServer(v.Name) 
-	   end
-       end
-    end
-end)
-
-MainTab:AddSwitch("Auto Collect Everything", function(s)
+MainTab:AddSwitch("Auto Collect", function(s)
 getgenv().AutoCollectEverything = s
 while AutoCollectEverything do task.wait(5)
  for _, v in pairs(WorldCurrencies:GetChildren()) do
@@ -50,21 +24,37 @@ while AutoCollectEverything do task.wait(5)
     end
 end)
 
---[[
-MainTab:AddSwitch("Auto Steps", function(d)
-getgenv().AutoSteps = d
-while AutoSteps do task.wait()
-        game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(LocalPlayer.Character, CFrame.new(Vector3.zero), d)
-    end
-end)
---]]
-
 MainTab:AddSwitch("Auto Rebirth", function(d)
 getgenv().AutoRebirth = d
 while AutoRebirth do task.wait(3)
         Services.LevelingService.RF.AttemptRebirth:InvokeServer()
     end
 end)
+
+--[[
+MainTab:AddSwitch("Auto Unlock all Worlds", function(s)
+getgenv().AutoUnlock = s
+while AutoUnlock do task.wait(0.2)
+    local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone
+    local CompleteZoneObby = Services.ZoneService.RF.CompleteZoneObby
+    
+    RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
+    CompleteZoneObby:InvokeServer()
+    task.wait(0.1)
+    
+    RequestTeleportToZone:InvokeServer("Emerald Hill Obby", "Lost Valley Exit")
+    CompleteZoneObby:InvokeServer()
+    task.wait(0.2)
+    
+    RequestTeleportToZone:InvokeServer("Snow Valley Obby", "Emerald Hill Exit")
+    CompleteZoneObby:InvokeServer()
+
+    task.wait(0.1)
+    
+    RequestTeleportToZone:InvokeServer("Hill Top Zone Obby", "Snow Valley Hill Exit")
+    CompleteZoneObby:InvokeServer()
+end)
+--]]
 
 MainTab:AddButton("Unlock all Worlds", function()
     local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone
