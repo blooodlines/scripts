@@ -22,8 +22,8 @@ getgenv().AutoCollect = a
 while AutoCollect do task.wait(0.3)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
-              PickupCurrency:FireServer(v.Name)
-	      end
+               PickupCurrency:FireServer(v.Name)
+	   end
        end
     end
 end)
@@ -33,8 +33,8 @@ getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(0.3)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
-	         ProcessDestructible:FireServer(v.Name) 
-	      end
+	       ProcessDestructible:FireServer(v.Name) 
+	   end
        end
     end
 end)
@@ -43,11 +43,11 @@ MainTab:AddSwitch("Auto Collect Everything", function(s)
 getgenv().AutoCollectEverything = s
 while AutoCollectEverything do task.wait(5)
  for _, v in pairs(WorldCurrencies:GetChildren()) do
-	 if v:FindFirstChildWhichIsA("Model") then
-             PickupCurrency:FireServer(v.Name) v:Destroy()
-	      end
-	   end
-	end
+	if v:FindFirstChildWhichIsA("Model") then
+              PickupCurrency:FireServer(v.Name) v:Destroy()
+	  end
+       end
+    end
 end)
 
 --[[
@@ -81,7 +81,7 @@ MainTab:AddButton("Unlock all Worlds", function()
     RequestTeleportToZone:InvokeServer("Snow Valley Obby", "Emerald Hill Exit")
     CompleteZoneObby:InvokeServer()
 
-	task.wait(0.3)
+    task.wait(0.3)
     
     RequestTeleportToZone:InvokeServer("Hill Top Zone Obby", "Snow Valley Hill Exit")
     CompleteZoneObby:InvokeServer()
@@ -108,7 +108,7 @@ EventTab:AddLabel("Stealth Suit Sonic")
 EventTab:AddButton("Collect Data Disks", function()
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
-          Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
+           Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
        end 
     end
 end)
