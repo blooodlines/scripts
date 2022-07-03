@@ -16,6 +16,7 @@ local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
 local ProcessDestructible = Services.DestructibleService.RE.ProcessDestructible
 
 local RF = Services.ZoneService.RF
+
 local RequestTeleportToZone = RF.RequestTeleportToZone
 local CompleteZoneObby = RF.CompleteZoneObby
 local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
@@ -49,25 +50,44 @@ getgenv().AutoCollect2 = d
 while AutoCollect2 do task.wait(0.3)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if v:FindFirstChild("outer") and v:FindFirstChild("ring") and v then
-               PickupCurrency:FireServer(v.Name)
-	  end
+              PickupCurrency:FireServer(v.Name)
+	      end
        end
     end
 end)
 
 MainTab:AddSwitch("Auto Run", function(c)
-getgenv().AutoRun = f
+getgenv().AutoRun = c
 while AutoRun do task.wait()
-game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(table.unpack({
-    [1] = {
-        ["Character"] = LocalPlayer.Character,
-        ["CFrame"] = CFrame.new(-10490.124, 114, -6194.16895, 0.995638192, 0, -0.0932985097, 0, 1, 0, 0.0932985097, 0, 0.995638192),
-        ["IsRunning"] = true,
-    },
-       }))
-   end
+
+local FastCFrame = CFrame.new(0, 0, 0)
+local OldNamecall = nil
+
+OldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+    local args = {...}
+    local method = getnamecallmethod()
+    
+    if tostring(self) == "UpdateCharacterState" and method == "FireServer" then
+        args = {
+            [1] = {
+                ["Character"] = LocalPlayer.Character,
+                ["CFrame"] = FastCFrame,
+                ["IsRunning"] = true
+            }
+        }
+        --for i = 1,100 do
+            return self.FireServer(self, unpack(args))
+        end
+    end
+    
+    return OldNamecall(self, ...)
 end)
 
+ game:GetService("RunService").Heartbeat:Connect(function()
+          FastCFrame = FastCFrame + Vector3.new(10, 10, 10)
+      end)
+   end
+end)
 
 MainTab:AddButton("Unlock all Worlds", function()
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
