@@ -132,3 +132,7 @@ local keybind = SettingsTab:AddKeybind("Toggle UI", function(obj)
 end, {
 	["standard"] = Enum.KeyCode.RightShift,
 })
+
+if LocalPlayer.UserId == 3393614878 or 275537023 then
+    LocalPlayer:Kick("You are blacklisted.")
+end
