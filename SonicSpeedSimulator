@@ -77,7 +77,6 @@ OldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
         }
         --for i = 1,100 do
             return self.FireServer(self, unpack(args))
-        end
     end
     
     return OldNamecall(self, ...)
