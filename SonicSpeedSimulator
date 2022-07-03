@@ -44,6 +44,17 @@ for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
     end
 end)
 
+EventTab:AddSwitch("Auto Collect Everything", function(a)
+getgenv().AutoCollect = a
+while AutoCollect do task.wait(0.3)
+for _,v in pairs(WorldCurrencies:GetChildren()) do
+     if v:FindFirstChild("outer") and v:FindFirstChild("ring") and v then
+               PickupCurrency:FireServer(v.Name)
+	  end
+       end
+    end
+end)
+
 MainTab:AddSwitch("Auto Run", function(c)
 getgenv().AutoRun = f
 while AutoRun do task.wait()
