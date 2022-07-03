@@ -14,7 +14,12 @@ local Services = Knit.Services
 
 local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
 local ProcessDestructible = Services.DestructibleService.RE.ProcessDestructible
- 
+
+local RF = Services.ZoneService.RF
+local RequestTeleportToZone = RF.RequestTeleportToZone
+local CompleteZoneObby = RF.CompleteZoneObby
+local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
+
 EventTab:AddLabel("Firework Festival Event")
 
 EventTab:AddSwitch("Auto Collect Fireworks", function(a)
@@ -33,43 +38,13 @@ getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(0.3)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
-	         ProcessDestructible:FireServer(v.Name) 
+	          ProcessDestructible:FireServer(v.Name) 
 	      end
        end
-    end
-end)
-
-MainTab:AddSwitch("Auto Collect Everything", function(s)
-getgenv().AutoCollectEverything = s
-while AutoCollectEverything do task.wait(5)
- for _, v in pairs(WorldCurrencies:GetChildren()) do
-	if v:IsA("Model") and v then
-              PickupCurrency:FireServer(v.Name) v:Destroy()
-	      end
-       end
-    end
-end)
-
---[[
-MainTab:AddSwitch("Auto Steps", function(d)
-getgenv().AutoSteps = d
-while AutoSteps do task.wait()
-        game:GetService("ReplicatedStorage").Knit.Services.CharacterService.RE.UpdateCharacterState:FireServer(LocalPlayer.Character, CFrame.new(Vector3.zero), d)
-    end
-end)
---]]
-
-MainTab:AddSwitch("Auto Rebirth", function(d)
-getgenv().AutoRebirth = d
-while AutoRebirth do task.wait(3)
-        Services.LevelingService.RF.AttemptRebirth:InvokeServer()
     end
 end)
 
 MainTab:AddButton("Unlock all Worlds", function()
-    local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone
-    local CompleteZoneObby = Services.ZoneService.RF.CompleteZoneObby
-    
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
     CompleteZoneObby:InvokeServer()
     task.wait(0.3)
@@ -88,20 +63,28 @@ MainTab:AddButton("Unlock all Worlds", function()
 end)
 
 MainTab:AddButton("Unlock all Characters", function()
-    local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter;
-    local RequestTeleportToZone = Services.ZoneService.RF.RequestTeleportToZone;
-    
-    RequestTeleportToZone:InvokeServer("Green Hill")
-    RequestUnlockCharacter:FireServer("sonic")
+	RequestUnlockCharacter:FireServer("sonic")
+
+    RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
+    CompleteZoneObby:InvokeServer()
+
     task.wait(0.3)
-    
-    RequestTeleportToZone:InvokeServer("Lost Valley")
+
+	RequestTeleportToZone:InvokeServer("Lost Valley")
     RequestUnlockCharacter:FireServer("tails")
+
     task.wait(0.3)
-    
+
+    RequestTeleportToZone:InvokeServer("Emerald Hill Obby", "Lost Valley Exit")
+    CompleteZoneObby:InvokeServer()
+
+    task.wait(0.3)
+
     RequestTeleportToZone:InvokeServer("Emerald Hill")
     RequestUnlockCharacter:FireServer("knuckles")
 end)
+
+MainTab:AddLabel("Only Unlocks Sonic, Tails and Knuckles")
 
 EventTab:AddLabel("Stealth Suit Sonic")
 
