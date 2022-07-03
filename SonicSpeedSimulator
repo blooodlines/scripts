@@ -27,8 +27,8 @@ getgenv().AutoCollect = a
 while AutoCollect do task.wait(0.3)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
-               PickupCurrency:FireServer(v.Name)
-	       end
+              PickupCurrency:FireServer(v.Name)
+	  end
        end
     end
 end)
@@ -38,8 +38,8 @@ getgenv().AutoCollect2 = b
 while AutoCollect2 do task.wait(0.3)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
-	          ProcessDestructible:FireServer(v.Name) 
-	      end
+	      ProcessDestructible:FireServer(v.Name) 
+	  end
        end
     end
 end)
@@ -63,14 +63,14 @@ MainTab:AddButton("Unlock all Worlds", function()
 end)
 
 MainTab:AddButton("Unlock all Characters", function()
-	RequestUnlockCharacter:FireServer("sonic")
+    RequestUnlockCharacter:FireServer("sonic")
 
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
     CompleteZoneObby:InvokeServer()
 
     task.wait(0.3)
 
-	RequestTeleportToZone:InvokeServer("Lost Valley")
+    RequestTeleportToZone:InvokeServer("Lost Valley")
     RequestUnlockCharacter:FireServer("tails")
 
     task.wait(0.3)
