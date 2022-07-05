@@ -47,15 +47,16 @@ end)
 
 MainTab:AddSwitch("Auto Collect Everything", function(d)
 getgenv().AutoCollect2 = d
-while AutoCollect2 do task.wait(0.3)
+while AutoCollect2 do task.wait(5)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if v:FindFirstChild("outer") and v:FindFirstChild("ring") and v then
-              PickupCurrency:FireServer(v.Name)
-	      end
+               PickupCurrency:FireServer(v.Name)
+	   end
        end
     end
 end)
 
+--[[
 MainTab:AddSwitch("Auto Run", function(c)
 getgenv().AutoRun = c
 while AutoRun do task.wait()
@@ -87,6 +88,7 @@ end)
       end)
    end
 end)
+--]]
 
 MainTab:AddButton("Unlock all Worlds", function()
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
