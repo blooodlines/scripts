@@ -3,7 +3,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main
 
 local qq = library:AddWindow("Sonic Speed Simulator")
 local MainTab = qq:AddTab("Main")
-local EventTab = qq:AddTab("Event")
 local SettingsTab = qq:AddTab("Settings")
 
 local LocalPlayer = game:GetService("Players").LocalPlayer
@@ -21,22 +20,9 @@ local RequestTeleportToZone = RF.RequestTeleportToZone
 local CompleteZoneObby = RF.CompleteZoneObby
 local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
 
-EventTab:AddLabel("Firework Festival Event")
-
-EventTab:AddSwitch("Auto Collect Fireworks", function(a)
-getgenv().AutoCollect = a
-while AutoCollect do task.wait(0.3)
-for _,v in pairs(WorldCurrencies:GetChildren()) do
-     if not v:FindFirstChild("outer") and not v:FindFirstChild("ring") and v then
-               PickupCurrency:FireServer(v.Name)
-	       end
-       end
-    end
-end)
-
-EventTab:AddSwitch("Auto Break Firework Crates", function(b)
-getgenv().AutoCollect2 = b
-while AutoCollect2 do task.wait(0.3)
+MainTab:AddSwitch("Auto Break Balloons & Crates", function(a)
+getgenv().AutoBreak = a
+while AutoBreak do task.wait(0.3)
 for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
 	          ProcessDestructible:FireServer(v.Name) 
@@ -45,21 +31,21 @@ for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
     end
 end)
 
-MainTab:AddSwitch("Auto Collect Everything", function(d)
-getgenv().AutoCollect2 = d
-while AutoCollect2 do task.wait(5)
+MainTab:AddSwitch("Auto Collect Everything", function(b)
+getgenv().AutoCollect = b
+while AutoCollect do task.wait(5)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if v:FindFirstChild("outer") and v:FindFirstChild("ring") and v then
                PickupCurrency:FireServer(v.Name)
-	   end
+	       end
        end
     end
 end)
 
---[[
+
 MainTab:AddSwitch("Auto Run", function(c)
 getgenv().AutoRun = c
-while AutoRun do task.wait()
+while AutoRun do task.wait(.1)
 
 local FastCFrame = CFrame.new(0, 0, 0)
 local OldNamecall = nil
@@ -76,19 +62,15 @@ OldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
                 ["IsRunning"] = true
             }
         }
-        --for i = 1,100 do
             return self.FireServer(self, unpack(args))
     end
     
     return OldNamecall(self, ...)
 end)
-
- game:GetService("RunService").Heartbeat:Connect(function()
-          FastCFrame = FastCFrame + Vector3.new(10, 10, 10)
-      end)
+task.wait(0.1)
+      FastCFrame = FastCFrame + Vector3.new(10, 10, 10)
    end
 end)
---]]
 
 MainTab:AddButton("Unlock all Worlds", function()
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
@@ -130,11 +112,17 @@ MainTab:AddButton("Unlock all Characters", function()
     RequestUnlockCharacter:FireServer("knuckles")
 end)
 
-MainTab:AddLabel("Only Unlocks Sonic, Tails and Knuckles")
+MainTab:AddLabel("Collectables")
 
-EventTab:AddLabel("Stealth Suit Sonic")
+MainTab:AddButton("Collect all Wrenches", function()
+for _,v in pairs(workspace:GetDescendants()) do
+	if v.Name == "Card" and v:FindFirstChild("Attachment").Shine and v then
+	       Services.CharacterShardService.RE.CharacterShardPickup:FireServer("mechanic tails", v.Parent.Name, true)
+       end
+    end
+end)
 
-EventTab:AddButton("Collect Data Disks", function()
+MainTab:AddButton("Collect all Data Disks", function()
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
            Services.CharacterShardService.RE.CharacterShardPickup:FireServer("stealth suit sonic", v.Parent.Name)
