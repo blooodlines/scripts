@@ -3,22 +3,29 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main
 
 local qq = library:AddWindow("Sonic Speed Simulator")
 local MainTab = qq:AddTab("Main")
+local MiscTab = qq:AddTab("Miscellaneous")
 local SettingsTab = qq:AddTab("Settings")
 
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
 local WorldCurrencies = workspace:FindFirstChild("World Currencies")
 local Knit = game:GetService("ReplicatedStorage").Knit
+
+-- Services
 local Services = Knit.Services
+local ZoneService = Services.ZoneService
+local WorldCurrencyService = Services.WorldCurrencyService
+local DestructibleService = Services.DestructibleService
 
-local PickupCurrency = Services.WorldCurrencyService.RE.PickupCurrency
-local ProcessDestructible = Services.DestructibleService.RE.ProcessDestructible
+-- Remotes
+local PickupCurrency = WorldCurrencyService.RE.PickupCurrency
+local ProcessDestructible = DestructibleService.RE.ProcessDestructible
 
-local RF = Services.ZoneService.RF
-
-local RequestTeleportToZone = RF.RequestTeleportToZone
-local CompleteZoneObby = RF.CompleteZoneObby
+local RequestTeleportToZone = ZoneService.RF.RequestTeleportToZone
+local CompleteZoneObby = ZoneService.RF.CompleteZoneObby
 local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
+
+MainTab:AddLabel("Main")
 
 MainTab:AddSwitch("Auto Break Balloons & Crates", function(a)
 getgenv().AutoBreak = a
@@ -72,7 +79,22 @@ task.wait(0.1)
    end
 end)
 
-MainTab:AddButton("Unlock all Worlds", function()
+MiscTab:AddLabel("Miscellaneous")
+
+MiscTab:AddSwitch("Auto Complete Obby", function(d)
+getgenv().AutoComplete = d
+while AutoComplete do task.wait(1)
+       ZoneService.RF.RequestTeleportToZone:InvokeServer("Green Hill Obby 1")
+	   task.wait(0.2)
+       ZoneService.RE.ZoneLoaded:FireServer("Green Hill Obby 1")
+	   wait(0.2)
+       ZoneService.RF.FinishObby:InvokeServer("Green Hill Obby 1", true)
+	   task.wait(0.2)
+       Services.SpinWheelService.RF.RequestFreeSpin:InvokeServer("GreenHill1")
+    end
+end)
+
+MiscTab:AddButton("Unlock all Worlds", function()
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
     CompleteZoneObby:InvokeServer()
     task.wait(0.3)
@@ -90,7 +112,7 @@ MainTab:AddButton("Unlock all Worlds", function()
     CompleteZoneObby:InvokeServer()
 end)
 
-MainTab:AddButton("Unlock all Characters", function()
+MiscTab:AddButton("Unlock all Characters", function()
     RequestUnlockCharacter:FireServer("sonic")
 
     RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
@@ -122,6 +144,7 @@ for _,v in pairs(workspace:GetDescendants()) do
     end
 end)
 
+MainTab:AddLabel("You must be on Chemical Plant. World 7")
 MainTab:AddButton("Collect all Data Disks", function()
 for _,v in pairs(workspace:GetDescendants()) do
 if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
