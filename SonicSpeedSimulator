@@ -16,11 +16,13 @@ local Services = Knit.Services
 local ZoneService = Services.ZoneService
 local WorldCurrencyService = Services.WorldCurrencyService
 local DestructibleService = Services.DestructibleService
+local SpinWheelService = Services.SpinWheelService
 
 -- Remotes
 local PickupCurrency = WorldCurrencyService.RE.PickupCurrency
 local ProcessDestructible = DestructibleService.RE.ProcessDestructible
 
+local RequestFreeSpin = SpinWheelService.RF.RequestFreeSpin
 local RequestTeleportToZone = ZoneService.RF.RequestTeleportToZone
 local CompleteZoneObby = ZoneService.RF.CompleteZoneObby
 local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
@@ -43,12 +45,11 @@ getgenv().AutoCollect = b
 while AutoCollect do task.wait(5)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
      if v:FindFirstChild("outer") and v:FindFirstChild("ring") and v then
-               PickupCurrency:FireServer(v.Name)
-	       end
+              PickupCurrency:FireServer(v.Name)
+	      end
        end
     end
 end)
-
 
 MainTab:AddSwitch("Auto Run", function(c)
 getgenv().AutoRun = c
@@ -81,16 +82,26 @@ end)
 
 MiscTab:AddLabel("Miscellaneous")
 
-MiscTab:AddSwitch("Auto Complete Obby", function(d)
+MiscTab:AddSwitch("Auto Complete Obbys", function(d)
 getgenv().AutoComplete = d
-while AutoComplete do task.wait(1)
-       ZoneService.RF.RequestTeleportToZone:InvokeServer("Green Hill Obby 1")
-	   task.wait(0.2)
-       ZoneService.RE.ZoneLoaded:FireServer("Green Hill Obby 1")
-	   wait(0.2)
+while AutoComplete do task.wait(.5)
+       RequestTeleportToZone:InvokeServer("Green Hill Obby 1") task.wait(0.2)
+       ZoneService.RE.ZoneLoaded:FireServer("Green Hill Obby 1") task.wait(0.2)
        ZoneService.RF.FinishObby:InvokeServer("Green Hill Obby 1", true)
+       RequestFreeSpin:InvokeServer("GreenHill1")
 	   task.wait(0.2)
-       Services.SpinWheelService.RF.RequestFreeSpin:InvokeServer("GreenHill1")
+
+	   RequestTeleportToZone:InvokeServer("Green Hill Obby 2") task.wait(0.2)
+       ZoneService.RE.ZoneLoaded:FireServer("Green Hill Obby 2") task.wait(0.2)
+       ZoneService.RF.FinishObby:InvokeServer("Green Hill Obby 2", true) task.wait(0.2)
+       RequestFreeSpin:InvokeServer("GreenHill2")
+	   task.wait(0.2)
+
+	   RequestTeleportToZone:InvokeServer("Green Hill Obby 3") task.wait(0.2)
+       ZoneService.RE.ZoneLoaded:FireServer("Green Hill Obby 3")
+       ZoneService.RF.FinishObby:InvokeServer("Green Hill Obby 3", true) task.wait(0.2)
+       RequestFreeSpin:InvokeServer("GreenHill3")
+	   task.wait(0.1)
     end
 end)
 
@@ -112,24 +123,13 @@ MiscTab:AddButton("Unlock all Worlds", function()
     CompleteZoneObby:InvokeServer()
 end)
 
+MiscTab:AddLabel("Unlock all Worlds first.")
 MiscTab:AddButton("Unlock all Characters", function()
     RequestUnlockCharacter:FireServer("sonic")
-
-    RequestTeleportToZone:InvokeServer("Lost Valley Obby", "Green Hill Exit")
-    CompleteZoneObby:InvokeServer()
-
     task.wait(0.3)
-
     RequestTeleportToZone:InvokeServer("Lost Valley")
     RequestUnlockCharacter:FireServer("tails")
-
     task.wait(0.3)
-
-    RequestTeleportToZone:InvokeServer("Emerald Hill Obby", "Lost Valley Exit")
-    CompleteZoneObby:InvokeServer()
-
-    task.wait(0.3)
-
     RequestTeleportToZone:InvokeServer("Emerald Hill")
     RequestUnlockCharacter:FireServer("knuckles")
 end)
@@ -155,7 +155,7 @@ end)
 
 SettingsTab:AddLabel("Settings")
 
-SettingsTab:AddButton("Copy Discord Server", function()
+SettingsTab:AddButton("Copy Discord Server Link", function()
 	setclipboard("https://discord.gg/ssaVPA6atd")
 end)
 
