@@ -151,7 +151,7 @@ end)
 
 SettingsTab:AddLabel("Settings")
 
-local keybind = SettingsTab:AddKeybind("Toggle UI", function(obj)
+local keybind = SettingsTab:AddKeybind("Toggle UI Keybind", function(obj)
 	ui_options.toggle_key = obj
 end, {
 	["standard"] = Enum.KeyCode.RightShift,
