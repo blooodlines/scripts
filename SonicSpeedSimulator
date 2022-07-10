@@ -1,7 +1,11 @@
+if not game.Loaded then
+    game.Loaded:Wait()
+end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/blooodlines/libs/main/elerium"))()
 
 local qq = library:AddWindow("Sonic Speed Simulator")
+local HomeTab = qq:AddTab("Home")
 local MainTab = qq:AddTab("Main")
 local MiscTab = qq:AddTab("Miscellaneous")
 local SettingsTab = qq:AddTab("Settings")
@@ -9,7 +13,7 @@ local SettingsTab = qq:AddTab("Settings")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
 local WorldCurrencies = workspace:FindFirstChild("World Currencies")
-local Objects = workspace.Map.Objects
+local Objects = workspace.Map:FindFirstChild("Objects")
 local Destructibles = Objects:FindFirstChild("Destructibles")
 
 local Knit = game:GetService("ReplicatedStorage").Knit
@@ -29,6 +33,17 @@ local RequestFreeSpin = SpinWheelService.RF.RequestFreeSpin
 local RequestTeleportToZone = ZoneService.RF.RequestTeleportToZone
 local CompleteZoneObby = ZoneService.RF.CompleteZoneObby
 local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
+
+for _,v in pairs(getconnections(LocalPlayer.Idled)) do
+	v:Disable()
+end
+
+HomeTab:AddLabel("Scripted by infinite#7302")
+HomeTab:AddLabel("UI Library by @Singularity")
+
+HomeTab:AddButton("Copy Discord Server Link", function()
+	setclipboard("https://discord.gg/ssaVPA6atd")
+end)
 
 MainTab:AddLabel("Main")
 
@@ -135,10 +150,6 @@ if v.Name == "Card" and v:FindFirstChild("Sparkles") and v then
 end)
 
 SettingsTab:AddLabel("Settings")
-
-SettingsTab:AddButton("Copy Discord Server Link", function()
-	setclipboard("https://discord.gg/ssaVPA6atd")
-end)
 
 local keybind = SettingsTab:AddKeybind("Toggle UI", function(obj)
 	ui_options.toggle_key = obj
