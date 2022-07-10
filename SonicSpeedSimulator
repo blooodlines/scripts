@@ -9,6 +9,9 @@ local SettingsTab = qq:AddTab("Settings")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
 local WorldCurrencies = workspace:FindFirstChild("World Currencies")
+local Objects = workspace.Map.Objects
+local Destructibles = Objects:FindFirstChild("Destructibles")
+
 local Knit = game:GetService("ReplicatedStorage").Knit
 
 -- Services
@@ -29,12 +32,12 @@ local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharact
 
 MainTab:AddLabel("Main")
 
-MainTab:AddSwitch("Auto Break Balloons & Crates", function(a)
+MainTab:AddSwitch("Auto Pop Balloons & Crates", function(a)
 getgenv().AutoBreak = a
 while AutoBreak do task.wait(0.3)
-for _,v in pairs(workspace.Map.Objects.Destructibles:GetChildren()) do
+for _,v in pairs(Destructibles:GetChildren()) do
      if v:FindFirstChild("base").Attachment:FindFirstChild("dus") and v then
-	          ProcessDestructible:FireServer(v.Name) 
+	          ProcessDestructible:FireServer(v.Name)
 	      end
        end
     end
@@ -51,33 +54,11 @@ for _,v in pairs(WorldCurrencies:GetChildren()) do
     end
 end)
 
-MainTab:AddSwitch("Auto Run", function(c)
-getgenv().AutoRun = c
-while AutoRun do task.wait(.1)
-
-local FastCFrame = CFrame.new(0, 0, 0)
-local OldNamecall = nil
-
-OldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-    local args = {...}
-    local method = getnamecallmethod()
-    
-    if tostring(self) == "UpdateCharacterState" and method == "FireServer" then
-        args = {
-            [1] = {
-                ["Character"] = LocalPlayer.Character,
-                ["CFrame"] = FastCFrame,
-                ["IsRunning"] = true
-            }
-        }
-            return self.FireServer(self, unpack(args))
+MainTab:AddSwitch("Auto Rebirth", function(c)
+getgenv().AutoRebirth = c
+while AutoRebirth do task.wait(3)
+         Services.LevelingService.RF.AttemptRebirth:InvokeServer()
     end
-    
-    return OldNamecall(self, ...)
-end)
-task.wait(0.1)
-      FastCFrame = FastCFrame + Vector3.new(10, 10, 10)
-   end
 end)
 
 MiscTab:AddLabel("Miscellaneous")
