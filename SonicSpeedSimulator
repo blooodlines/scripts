@@ -44,8 +44,8 @@ MainTab:AddSwitch("Auto Collect Everything", function(b)
 getgenv().AutoCollect = b
 while AutoCollect do task.wait(5)
 for _,v in pairs(WorldCurrencies:GetChildren()) do
-     if v:FindFirstChild("outer") and v:FindFirstChild("ring") and v then
-              PickupCurrency:FireServer(v.Name)
+     if v:IsA("Model") and v then
+              PickupCurrency:FireServer(v.Name) v:Destroy()
 	      end
        end
     end
