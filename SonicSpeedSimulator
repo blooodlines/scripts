@@ -32,7 +32,7 @@ local CompleteZoneObby = ZoneService.RF.CompleteZoneObby
 local RequestUnlockCharacter = Services.CharacterService.RE.RequestUnlockCharacter
 
 for _,v in pairs(getconnections(LocalPlayer.Idled)) do
-	v:Disable()
+     v:Disable()
 end
 
 HomeTab:AddLabel("Scripted by infinite#7302")
@@ -116,7 +116,6 @@ MiscTab:AddButton("Unlock all Worlds", function()
     CompleteZoneObby:InvokeServer()
 end)
 
-MiscTab:AddLabel("Unlock all Worlds first.")
 MiscTab:AddButton("Unlock all Characters", function()
     RequestUnlockCharacter:FireServer("sonic")
     task.wait(0.3)
@@ -125,6 +124,17 @@ MiscTab:AddButton("Unlock all Characters", function()
     task.wait(0.3)
     RequestTeleportToZone:InvokeServer("Emerald Hill")
     RequestUnlockCharacter:FireServer("knuckles")
+end)
+
+MiscTab:AddSwitch("Auto Combine Chaos", function(e)
+getgenv().AutoCombine = e
+while AutoCombine do task.wait(3)
+local Data = require(game:GetService("ReplicatedFirst").Client.Controllers.Player.DataController)
+
+for i, v in pairs(Data.Data.Pets) do
+             Services.PetService.RE.CombinePet:FireServer(i, v)
+	      end
+    end
 end)
 
 MainTab:AddLabel("Collectables")
