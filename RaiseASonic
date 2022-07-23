@@ -28,9 +28,7 @@ OrionLib:MakeNotification({Name = "AstralHook", Content = "Welcome to AstralHook
 Section1:AddToggle({Name = "Auto Click Sonic", Default = false, Callback = function(Value0)
  getgenv().AutoClick = Value0
  while AutoClick do task.wait(0.015)
- for i = 1, 4 do
 	     fireclickdetector(game:GetService("Workspace").Sonic.Sonic.ClickDetector)
-      end
    end
 end  
 })
