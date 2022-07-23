@@ -23,11 +23,18 @@ local TabCred = Window:MakeTab({Name = "Credits", Icon = "rbxassetid://696101888
 
 local Section1 = Tab:AddSection({Name = "Farming"})
 
-OrionLib:MakeNotification({Name = "AstralHook", Content = "Welcome to AstralHook. This game is supported. You're on the Developer Version.", Image = "rbxassetid://4370317928", Time = 5})
+OrionLib:MakeNotification({Name = "AstralHook", Content = "Welcome to AstralHook.", Image = "rbxassetid://4370317928", Time = 5})
+
+local Delay = 0.1
+
+Section1:AddTextbox({Name = "Click & Collect Delay", Default = "0.1", TextDisappear = true, Callback = function(Value)
+		Delay = Value
+  end	  
+})
 
 Section1:AddToggle({Name = "Auto Click Sonic", Default = false, Callback = function(Value0)
  getgenv().AutoClick = Value0
- while AutoClick do task.wait(0.1)
+ while AutoClick do task.wait(Delay)
 	     fireclickdetector(game:GetService("Workspace").Sonic.Sonic.ClickDetector)
    end
 end  
@@ -35,7 +42,7 @@ end
 
 Section1:AddToggle({Name = "Auto Collect Rings", Default = false, Callback = function(Value1)
  getgenv().AutoCollect = Value1
- while AutoCollect do task.wait(0.1)
+ while AutoCollect do task.wait(Delay)
  for _,v in next, Workspace:GetDescendants() do
 	 if v.Name == "Ring" and v then
 		     firetouchinterest(LocalPlayer.Character.Head, v, 0)
