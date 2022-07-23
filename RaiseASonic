@@ -18,6 +18,8 @@ for _,v in pairs(getconnections(LocalPlayer.Idled)) do
 	v:Disable()
 end
 
+LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = 50
+
 local Tab = Window:MakeTab({Name = "Main", Icon = "rbxassetid://4483345998"})
 local TabCred = Window:MakeTab({Name = "Credits", Icon = "rbxassetid://6961018885"})
 
@@ -75,6 +77,20 @@ Section1:AddToggle({Name = "Auto Get Rent", Default = false, Callback = function
 	   end
    end
 end  
+})
+
+Section1:AddToggle({Name = "Auto Buy Obama Prism", Default = false, Callback = function(Value4)
+ getgenv().AutoBuyObamaPrism = Value4
+
+ while AutoBuyObamaPrism do task.wait(2)
+	     fireproximityprompt(game:GetService("Workspace").WeirdObamaThing.ProximityPrompt)
+   end
+end  
+})
+
+Section1:AddButton({Name = "Get Door Key", Callback = function()
+      fireclickdetector(game:GetService("Workspace").Key.ClickDetector)
+  end    
 })
 
 TabCred:AddLabel("Scripted by infinite#7302")
