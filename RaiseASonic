@@ -27,7 +27,7 @@ OrionLib:MakeNotification({Name = "AstralHook", Content = "Welcome to AstralHook
 
 Section1:AddToggle({Name = "Auto Click Sonic", Default = false, Callback = function(Value0)
  getgenv().AutoClick = Value0
- while AutoClick do task.wait(0.015)
+ while AutoClick do task.wait(0.1)
 	     fireclickdetector(game:GetService("Workspace").Sonic.Sonic.ClickDetector)
    end
 end  
@@ -35,7 +35,7 @@ end
 
 Section1:AddToggle({Name = "Auto Collect Rings", Default = false, Callback = function(Value1)
  getgenv().AutoCollect = Value1
- while AutoCollect do task.wait(0.015)
+ while AutoCollect do task.wait(0.1)
  for _,v in next, Workspace:GetDescendants() do
 	 if v.Name == "Ring" and v then
 		     firetouchinterest(LocalPlayer.Character.Head, v, 0)
