@@ -30,14 +30,16 @@ OrionLib:MakeNotification({Name = "AstralHook", Content = "Welcome to AstralHook
 local Delay = 0.1
 
 Section1:AddTextbox({Name = "Click & Collect Delay", Default = "0.1", TextDisappear = true, Callback = function(Value)
-		Delay = Value
+	  Delay = Value
   end	  
 })
 
 Section1:AddToggle({Name = "Auto Click Sonic", Default = false, Callback = function(Value0)
  getgenv().AutoClick = Value0
+ local Sonic = workspace.Sonic
+
  while AutoClick do task.wait(Delay)
-	     fireclickdetector(game:GetService("Workspace").Sonic.Sonic.ClickDetector)
+       fireclickdetector(Sonic.Sonic.ClickDetector)
    end
 end  
 })
@@ -73,7 +75,7 @@ Section1:AddToggle({Name = "Auto Get Rent", Default = false, Callback = function
 
  while AutoGetRent do task.wait(1)
 	   if CanGetRent then
-		    ReplicatedStorage.RentEvent:FireServer("Get")
+		   ReplicatedStorage.RentEvent:FireServer("Get")
 	   end
    end
 end  
@@ -81,9 +83,10 @@ end
 
 Section1:AddToggle({Name = "Auto Buy Obama Prism", Default = false, Callback = function(Value4)
  getgenv().AutoBuyObamaPrism = Value4
+ local Prism = game:GetService("Workspace").WeirdObamaThing
 
  while AutoBuyObamaPrism do task.wait(2)
-	     fireproximityprompt(game:GetService("Workspace").WeirdObamaThing.ProximityPrompt)
+        fireproximityprompt(Prism.ProximityPrompt)
    end
 end  
 })
