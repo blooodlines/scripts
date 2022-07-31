@@ -1,5 +1,5 @@
 if not game:IsLoaded() then
-	 game.Loaded:Wait()
+    game.Loaded:Wait()
 end
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
@@ -15,7 +15,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
 for _,v in pairs(getconnections(LocalPlayer.Idled)) do
-	v:Disable()
+    v:Disable()
 end
 
 LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = 50
@@ -30,7 +30,7 @@ OrionLib:MakeNotification({Name = "AstralHook", Content = "Welcome to AstralHook
 local Delay = 0.1
 
 Section1:AddTextbox({Name = "Click & Collect Delay", Default = "0.1", TextDisappear = true, Callback = function(Value)
-	  Delay = Value
+	Delay = Value
   end	  
 })
 
@@ -49,9 +49,9 @@ Section1:AddToggle({Name = "Auto Collect Rings", Default = false, Callback = fun
  while AutoCollect do task.wait(Delay)
  for _,v in next, Workspace:GetDescendants() do
 	 if v.Name == "Ring" and v then
-		     firetouchinterest(LocalPlayer.Character.Head, v, 0)
-		     firetouchinterest(LocalPlayer.Character.Head, v, 1)
-	     end
+		firetouchinterest(LocalPlayer.Character.Head, v, 0)
+		firetouchinterest(LocalPlayer.Character.Head, v, 1)
+	  end
       end
    end
 end  
@@ -62,8 +62,8 @@ Section1:AddToggle({Name = "Auto Buy Food", Default = false, Callback = function
  local Food = workspace.Food
 
  while AutoBuyFood do task.wait(1)
-	if not Food.Full then
-		 ReplicatedStorage.Buy:FireServer("Sonic Food")
+       if not Food.Full then
+	    ReplicatedStorage.Buy:FireServer("Sonic Food")
       end
    end
 end  
@@ -74,26 +74,11 @@ Section1:AddToggle({Name = "Auto Get Rent", Default = false, Callback = function
  local CanGetRent = game:GetService("ReplicatedStorage").CanGetRent
 
  while AutoGetRent do task.wait(1)
-	   if CanGetRent then
-		   ReplicatedStorage.RentEvent:FireServer("Get")
-	   end
+       if CanGetRent then
+	   ReplicatedStorage.RentEvent:FireServer("Get")
+      end
    end
 end  
-})
-
-Section1:AddToggle({Name = "Auto Buy Obama Prism", Default = false, Callback = function(Value4)
- getgenv().AutoBuyObamaPrism = Value4
- local Prism = game:GetService("Workspace").WeirdObamaThing
-
- while AutoBuyObamaPrism do task.wait(2)
-        fireproximityprompt(Prism.ProximityPrompt)
-   end
-end  
-})
-
-Section1:AddButton({Name = "Get Door Key", Callback = function()
-      fireclickdetector(game:GetService("Workspace").Key.ClickDetector)
-  end    
 })
 
 TabCred:AddLabel("Scripted by infinite#7302")
@@ -101,10 +86,10 @@ TabCred:AddLabel("UI Library by shlex#2767")
 
 TabCred:AddParagraph("Info","Script changelogs at our Discord Server. If you find any bugs, inform us.")
 
-TabCred:AddButton({Name = "Copy Discord Server Link", Callback = function()
-  setclipboard("https://discord.gg/ssaVPA6atd")
-	  print("AstralHook: Copied Discord Server to Clipboard.")
-	  OrionLib:MakeNotification({Name = "AstralHook", Content = "Copied Discord Server Link to Clipboard.", Image = "rbxassetid://4370317928", Time = 2})
+TabCred:AddButton({Name = "Copy Discord Invite", Callback = function()
+        setclipboard("https://discord.gg/ssaVPA6atd")
+	print("AstralHook: Copied Discord Server Invite to Clipboard.")
+	OrionLib:MakeNotification({Name = "AstralHook", Content = "Copied Discord Server Invite to Clipboard.", Image = "rbxassetid://4370317928", Time = 2})
   end    
 })
 
