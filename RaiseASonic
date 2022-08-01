@@ -61,10 +61,8 @@ Section1:AddToggle({Name = "Auto Buy Food", Default = false, Callback = function
  getgenv().AutoBuyFood = Value2
  local Food = workspace.Food
 
- while AutoBuyFood do task.wait(1)
-       if not Food.Full then
+ while AutoBuyFood and not Food.Full do task.wait(1)
 	    ReplicatedStorage.Buy:FireServer("Sonic Food")
-      end
    end
 end  
 })
@@ -72,11 +70,8 @@ end
 Section1:AddToggle({Name = "Auto Get Rent", Default = false, Callback = function(Value3)
  getgenv().AutoGetRent = Value3
  local CanGetRent = game:GetService("ReplicatedStorage").CanGetRent
-
- while AutoGetRent do task.wait(1)
-       if CanGetRent then
-	   ReplicatedStorage.RentEvent:FireServer("Get")
-      end
+ while AutoGetRent and CanGetRent do task.wait(1)
+	    ReplicatedStorage.RentEvent:FireServer("Get")
    end
 end  
 })
@@ -87,9 +82,9 @@ TabCred:AddLabel("UI Library by shlex#2767")
 TabCred:AddParagraph("Info","Script changelogs at our Discord Server. If you find any bugs, inform us.")
 
 TabCred:AddButton({Name = "Copy Discord Invite", Callback = function()
-        setclipboard("https://discord.gg/ssaVPA6atd")
-	print("AstralHook: Copied Discord Server Invite to Clipboard.")
-	OrionLib:MakeNotification({Name = "AstralHook", Content = "Copied Discord Server Invite to Clipboard.", Image = "rbxassetid://4370317928", Time = 2})
+     setclipboard("https://discord.gg/ssaVPA6atd")
+	 print("AstralHook: Copied Discord Server Invite to Clipboard.")
+	 OrionLib:MakeNotification({Name = "AstralHook", Content = "Copied Discord Server Invite to Clipboard.", Image = "rbxassetid://4370317928", Time = 2})
   end    
 })
 
