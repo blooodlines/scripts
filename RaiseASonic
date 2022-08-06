@@ -4,7 +4,7 @@ end
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({
-Name = "AstralHook | Raise a Sonic [PATCHED]",
+Name = "AstralHook | Raise a Sonic",
 HidePremium = false,
 SaveConfig = false,
 IntroEnabled = true,
@@ -14,6 +14,7 @@ IntroText = "Welcome to AstralHook.",
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
+if not getconnections then return end
 for _,v in pairs(getconnections(LocalPlayer.Idled)) do
     v:Disable()
 end
@@ -41,17 +42,17 @@ Section1:AddToggle({Name = "Auto Click Sonic", Default = false, Callback = funct
  while AutoClick do task.wait(Delay)
        fireclickdetector(Sonic.Sonic.ClickDetector)
    end
-end  
+end
 })
 
 Section1:AddToggle({Name = "Auto Collect Rings", Default = false, Callback = function(Value1)
  getgenv().AutoCollect = Value1
  while AutoCollect do task.wait(Delay)
- for _,v in next, Workspace:GetDescendants() do
-	 if v.Name == "Ring" and v then
-		firetouchinterest(LocalPlayer.Character.Head, v, 0)
-		firetouchinterest(LocalPlayer.Character.Head, v, 1)
-	  end
+    for _,v in next, Workspace:GetDescendants() do
+	    if v.Name == "Ring" and v then
+	         firetouchinterest(LocalPlayer.Character.Head, v, 0)
+		     firetouchinterest(LocalPlayer.Character.Head, v, 1)
+	     end
       end
    end
 end  
@@ -69,8 +70,10 @@ end
 
 Section1:AddToggle({Name = "Auto Get Rent", Default = false, Callback = function(Value3)
  getgenv().AutoGetRent = Value3
- local CanGetRent = game:GetService("ReplicatedStorage").CanGetRent
- while AutoGetRent and CanGetRent do task.wait(1)
+ local CanGetRent = game:GetService("ReplicatedStorage").CanGetRent.Value
+ local SonicEXE = game:GetService("ReplicatedStorage").SonicEXE.Value
+
+ while AutoGetRent and CanGetRent and SonicEXE do task.wait(1)
 	    ReplicatedStorage.RentEvent:FireServer("Get")
    end
 end  
