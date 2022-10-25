@@ -1,0 +1,22 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+local Network = {}
+local Framework = require(game:GetService("ReplicatedStorage"):WaitForChild("Framework", 10):WaitForChild("Library", 10));
+assert(Framework, "Framework not found.")
+function Network:getPath(...)
+    local path = { ... }
+    local oldPath = Framework
+    for _, v in ipairs(path) do
+        oldPath = rawget(oldPath, v)
+    end
+    return oldPath
+end
+function Network:waitForLoad()
+    local currentlyLoading
+        repeat wait()
+            currentlyLoading = ((Network:getPath("Variables", "LoadingWorld") == false) and workspace:FindFirstChild("__MAP") and workspace["__MAP"]:FindFirstChild("PlayerSpawns")) and true or false
+        until currentlyLoading
+    return currentlyLoading
+end
+return Network
